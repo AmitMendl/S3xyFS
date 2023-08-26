@@ -2,6 +2,7 @@ package cli
 
 import (
 	"fmt"
+	"os"
 
 	cli "github.com/urfave/cli"
 )
@@ -30,6 +31,8 @@ func Main() {
 			Flags:       []cli.Flag{},
 		},
 	}
+
+	app.Run(os.Args)
 }
 
 func initializeFS(c *cli.Context) {
