@@ -6,7 +6,7 @@ import (
 	cli "github.com/urfave/cli"
 )
 
-func main() {
+func Main() {
 	app := cli.NewApp()
 	app.Name = "greet"
 	app.Usage = "say a greeting"
