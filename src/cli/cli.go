@@ -1,6 +1,8 @@
 package cli
 
 import (
+	"fmt"
+
 	cli "github.com/urfave/cli"
 )
 
@@ -22,5 +24,5 @@ func Main() {
 }
 
 func newCredentials(c *cli.Context) {
-
+	fmt.Println("Hello hi")
 }
