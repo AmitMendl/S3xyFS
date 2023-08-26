@@ -1,2 +1,1 @@
-# s3xi
-S3 Example Implementaion - export your local folder as an S3 service
+# S3xy FS - S3 Extention for Your File System
