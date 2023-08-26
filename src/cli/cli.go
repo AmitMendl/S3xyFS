@@ -15,10 +15,10 @@ func Main() {
 		{
 			Name:        "init",
 			HelpName:    "init",
-			Action:      newCredentials,
+			Action:      initializeFS,
 			ArgsUsage:   ` `,
-			Usage:       `Create new credentials for your folder`,
-			Description: `Creates new credentials`,
+			Usage:       `Initialize folder as an S3 service`,
+			Description: `Exports folder as S3 `,
 			Flags:       []cli.Flag{},
 		},
 		{
