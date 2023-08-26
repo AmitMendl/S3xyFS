@@ -15,7 +15,7 @@ func Main() {
 		{
 			Name:        "init",
 			HelpName:    "init",
-			Action:      initializeFS,
+			Action:      cliInitializeFS,
 			ArgsUsage:   ` `,
 			Usage:       `Initialize folder as an S3 service`,
 			Description: `Exports folder as S3 `,
@@ -24,7 +24,7 @@ func Main() {
 		{
 			Name:        "nc",
 			HelpName:    "nc",
-			Action:      newCredentials,
+			Action:      cliNewCredentials,
 			ArgsUsage:   ` `,
 			Usage:       `Create new credentials for your folder`,
 			Description: `Creates new credentials`,
@@ -35,10 +35,10 @@ func Main() {
 	app.Run(os.Args)
 }
 
-func initializeFS(c *cli.Context) {
+func cliInitializeFS(c *cli.Context) {
 	fmt.Println("Initializing FS")
 }
 
-func newCredentials(c *cli.Context) {
+func cliNewCredentials(c *cli.Context) {
 	fmt.Println("Creating new credentials")
 }
