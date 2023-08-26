@@ -12,6 +12,15 @@ func Main() {
 
 	app.Commands = []cli.Command{
 		{
+			Name:        "init",
+			HelpName:    "init",
+			Action:      newCredentials,
+			ArgsUsage:   ` `,
+			Usage:       `Create new credentials for your folder`,
+			Description: `Creates new credentials`,
+			Flags:       []cli.Flag{},
+		},
+		{
 			Name:        "nc",
 			HelpName:    "nc",
 			Action:      newCredentials,
@@ -23,6 +32,10 @@ func Main() {
 	}
 }
 
+func initializeFS(c *cli.Context) {
+	fmt.Println("Initializing FS")
+}
+
 func newCredentials(c *cli.Context) {
-	fmt.Println("Hello hi")
+	fmt.Println("Creating new credentials")
 }
