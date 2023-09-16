@@ -5,14 +5,12 @@ package s3
 */
 
 import (
+	"encoding/xml"
+	"io/ioutil"
 	"net/http"
 
 	fs "github.com/AmitMendl/S3xyFS/src/FS"
 )
-
-func initEndpoints(controller fs.S3Controller) {
-
-}
 
 type commandHandler struct {
 	controller fs.S3Controller
@@ -24,6 +22,13 @@ type makeBucketHandler struct {
 }
 
 func (h makeBucketHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+
+	type Body struct {
+		CreateBucketConfiguration struct {
+			LocationConstraint string
+		}
+	}
+
 	if r.Method != "PUT" {
 		return
 	}
@@ -31,6 +36,13 @@ func (h makeBucketHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	uriParams := r.URL.Query()
 	bucket := uriParams.Get(CB_URI_PARAM_BUCKET)
 	acl := uriParams.Get(CB_URI_PARAM_ACL)
+
+	reqBody, _ := ioutil.ReadAll(r.Body)
+	var body Body
+	if err := xml.Unmarshal(reqBody, &body); err != nil {
+		// TODO: Something something error 422
+		return
+	}
 
 	h.controller.CreateBucket(bucket, acl)
 }
