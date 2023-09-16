@@ -14,4 +14,5 @@ const (
 // createBucket
 const (
 	CB_URI_PARAM_BUCKET string = "BUCKET"
+	CB_URI_PARAM_ACL    string = "x-amz-acl"
 )

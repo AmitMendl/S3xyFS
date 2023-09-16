@@ -27,4 +27,10 @@ func (h makeBucketHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "PUT" {
 		return
 	}
+
+	uriParams := r.URL.Query()
+	bucket := uriParams.Get(CB_URI_PARAM_BUCKET)
+	acl := uriParams.Get(CB_URI_PARAM_ACL)
+
+	h.controller.CreateBucket(bucket, acl)
 }
