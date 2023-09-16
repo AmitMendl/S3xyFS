@@ -9,19 +9,19 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	fs "github.com/AmitMendl/S3xyFS/src/FS"
+	s3fs "github.com/AmitMendl/S3xyFS/src/FS"
 )
 
 type commandHandler struct {
-	controller fs.S3Controller
+	controller s3fs.S3Controller
 }
 
 // createBucket - mb command
-type makeBucketHandler struct {
+type MakeBucketHandler struct {
 	commandHandler
 }
 
-func (h makeBucketHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (h MakeBucketHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	type Body struct {
 		CreateBucketConfiguration struct {

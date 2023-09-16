@@ -10,5 +10,6 @@ type S3rverConfig struct {
 	Port int
 
 	/* filesystem config */
+	Root string
 	Path string
 }
