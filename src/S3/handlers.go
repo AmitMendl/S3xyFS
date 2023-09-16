@@ -6,14 +6,16 @@ package s3
 
 import (
 	"net/http"
+
+	fs "github.com/AmitMendl/S3xyFS/src/FS"
 )
 
-func initEndpoints(controller S3Controller) {
+func initEndpoints(controller fs.S3Controller) {
 
 }
 
 type commandHandler struct {
-	controller S3Controller
+	controller fs.S3Controller
 }
 
 // createBucket - mb command

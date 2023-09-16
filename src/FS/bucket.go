@@ -1,4 +1,4 @@
-package s3
+package fs
 
 // This is a bucket
 type Bucket struct {
