@@ -5,7 +5,9 @@ type S3Controller struct {
 	buckets map[string]Bucket
 }
 
-func (c *S3Controller) InitController(path string) {
-	c.root = path
-	c.buckets = make(map[string]Bucket)
+func InitController(root string) *S3Controller {
+	return &S3Controller{
+		root:    root,
+		buckets: make(map[string]Bucket),
+	}
 }

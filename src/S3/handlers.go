@@ -12,16 +12,16 @@ import (
 	s3fs "github.com/AmitMendl/S3xyFS/src/FS"
 )
 
-type commandHandler struct {
-	controller s3fs.S3Controller
+type CommandHandler struct {
+	Controller s3fs.S3Controller
 }
 
 // createBucket - mb command
-type MakeBucketHandler struct {
-	commandHandler
+type CreateBucketHandler struct {
+	*CommandHandler
 }
 
-func (h MakeBucketHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (h CreateBucketHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	type Body struct {
 		CreateBucketConfiguration struct {
@@ -44,5 +44,5 @@ func (h MakeBucketHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.controller.CreateBucket(bucket, acl)
+	h.Controller.CreateBucket(bucket, acl)
 }

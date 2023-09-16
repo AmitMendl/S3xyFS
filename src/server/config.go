@@ -11,5 +11,4 @@ type S3rverConfig struct {
 
 	/* filesystem config */
 	Root string
-	Path string
 }
