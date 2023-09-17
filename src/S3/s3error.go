@@ -30,6 +30,5 @@ func GetXML(S3err S3Error) (string, error) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Printf("XML: %v\n", string(xml))
 	return string(xml), err
 }
