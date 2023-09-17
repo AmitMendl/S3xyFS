@@ -6,7 +6,11 @@ type FSError struct {
 	Errorcode int
 }
 
-// compliance with Error interface
-func (e FSError) Error() string {
+// compliance with S3Error interface
+func (e FSError) ErrCode() string {
+	return e.Code
+}
+
+func (e FSError) ErrMessage() string {
 	return e.Message
 }

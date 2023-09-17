@@ -41,7 +41,8 @@ func (h CreateBucketHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	fserr := h.Controller.CreateBucket(bucket, acl)
 	if fserr != nil {
-		http.Error(w, fserr.Message, fserr.Errorcode)
+		RespBody, _ := GetXML(fserr)
+		http.Error(w, RespBody, fserr.Errorcode)
 	}
 
 }
