@@ -5,9 +5,9 @@ package s3
 */
 
 import (
-	"encoding/xml"
-	"io/ioutil"
+	"log"
 	"net/http"
+	"strings"
 
 	s3fs "github.com/AmitMendl/S3xyFS/src/FS"
 )
@@ -34,15 +34,12 @@ func (h CreateBucketHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	uriParams := r.URL.Query()
-	bucket := uriParams.Get(CB_URI_PARAM_BUCKET)
-	acl := uriParams.Get(CB_URI_PARAM_ACL)
+	pathParams := strings.Split(r.URL.Path, "/")
+	log.Printf("%v", pathParams)
 
-	reqBody, _ := ioutil.ReadAll(r.Body)
-	var body Body
-	if err := xml.Unmarshal(reqBody, &body); err != nil {
-		// TODO: Something something error 422
-		return
-	}
+	bucket := pathParams[1]
+	acl := uriParams.Get(CB_URI_PARAM_ACL)
+	// body doesn't matter
 
 	h.Controller.CreateBucket(bucket, acl)
 }

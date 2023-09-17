@@ -2,6 +2,7 @@ package fs
 
 import (
 	"io/fs"
+	"log"
 	"os"
 	"path"
 )
@@ -14,8 +15,6 @@ type Bucket struct {
 	path string
 	acl  string
 }
-
-func initBucket(name string)
 
 func (c *S3Controller) getBucketPath(bucket string) string {
 	return path.Join(c.root, string(bucket))
@@ -36,7 +35,12 @@ func (c *S3Controller) CreateBucket(name string, acl string) *FSerr {
 		acl:  acl,
 		path: path,
 	}
-	os.Mkdir(name, fs.FileMode(FS_FILEMODE))
+
+	log.Printf("%v", c.buckets[name])
+
+	if err := os.Mkdir(path, fs.FileMode(FS_FILEMODE)); err != nil {
+		log.Fatal(err)
+	}
 
 	return nil
 }
