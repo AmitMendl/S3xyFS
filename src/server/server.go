@@ -14,10 +14,8 @@ func StartServer(config S3rverConfig) {
 	controller := s3fs.InitController(config.Root)
 
 	// Start handler
-	cbHandler := s3.CreateBucketHandler{
-		CommandHandler: &s3.CommandHandler{
-			Controller: *controller,
-		},
+	cbHandler := s3.S3Handler{
+		Controller: *controller,
 	}
 	http.Handle("/", cbHandler)
 
