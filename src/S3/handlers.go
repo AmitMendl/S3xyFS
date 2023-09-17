@@ -37,7 +37,6 @@ func (h CreateBucketHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	bucket := pathParams[1]
 	acl := uriParams.Get(CB_URI_PARAM_ACL)
-	// body doesn't matter
 
 	fserr := h.Controller.CreateBucket(bucket, acl)
 	if fserr != nil {

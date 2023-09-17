@@ -21,7 +21,7 @@ func (c *S3Controller) getBucketPath(bucket string) string {
 }
 
 func (c *S3Controller) CreateBucket(name string, acl string) *FSError {
-	if _, exists := c.buckets[name]; !exists {
+	if _, exists := c.buckets[name]; exists {
 		return &FSError{
 			Code:      ERR_BUCKET_ALREADY_EXISTS_CODE,
 			Message:   ERR_BUCKET_ALREADY_EXISTS_MSG,
