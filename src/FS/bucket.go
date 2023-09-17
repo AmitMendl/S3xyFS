@@ -17,7 +17,7 @@ type Bucket struct {
 }
 
 func (c *S3Controller) getBucketPath(bucket string) string {
-	return path.Join(c.root, string(bucket))
+	return path.Join(c.root, bucket)
 }
 
 func (c *S3Controller) CreateBucket(name string, acl string) *FSError {
@@ -29,17 +29,20 @@ func (c *S3Controller) CreateBucket(name string, acl string) *FSError {
 		}
 	}
 
-	path := path.Join(c.root, name)
-
-	c.buckets[name] = Bucket{
-		name: name,
-		acl:  acl,
-		path: path,
-	}
+	path := c.getBucketPath(name)
+	c.InitBucket(name, acl)
 
 	if err := os.Mkdir(path, fs.FileMode(FS_FILEMODE)); err != nil {
 		log.Fatal(err)
 	}
 
 	return nil
+}
+
+func (c *S3Controller) InitBucket(name string, acl string) {
+	c.buckets[name] = Bucket{
+		name: name,
+		acl:  acl,
+		path: c.getBucketPath(name),
+	}
 }
