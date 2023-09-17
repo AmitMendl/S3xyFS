@@ -8,6 +8,7 @@ import (
 type S3Error interface {
 	ErrCode() string
 	ErrMessage() string
+	ErrHttpCode() int
 }
 
 func GetXML(S3err S3Error) (string, error) {

@@ -1,6 +1,7 @@
 package fs
 
 type FSError struct {
+	HttpCode  int
 	Code      string
 	Message   string
 	Errorcode int
@@ -13,4 +14,8 @@ func (e FSError) ErrCode() string {
 
 func (e FSError) ErrMessage() string {
 	return e.Message
+}
+
+func (e FSError) ErrHttpCode() int {
+	return e.ErrHttpCode()
 }
