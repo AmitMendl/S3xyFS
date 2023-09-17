@@ -13,13 +13,13 @@ func StartServer(config S3rverConfig) {
 	// init controller
 	controller := s3fs.InitController(config.Root)
 
-	// Start handler
-	cbHandler := s3.CreateBucketHandler{
+	// Start handlers
+	Handler := s3.S3Handler{
 		CommandHandler: &s3.CommandHandler{
 			Controller: *controller,
 		},
 	}
-	http.Handle("/", cbHandler)
+	http.Handle("/", Handler)
 
 	// TODO: Proper interraction with config
 	http.ListenAndServe(fmt.Sprintf(":%d", config.Port), nil)

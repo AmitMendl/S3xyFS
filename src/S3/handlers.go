@@ -5,6 +5,7 @@ package s3
 */
 
 import (
+	"io"
 	"net/http"
 	"strings"
 
@@ -16,11 +17,12 @@ type CommandHandler struct {
 }
 
 // createBucket - mb command
-type CreateBucketHandler struct {
+
+type S3Handler struct {
 	*CommandHandler
 }
 
-func (h CreateBucketHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (h S3Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	type Body struct {
 		CreateBucketConfiguration struct {
@@ -32,16 +34,31 @@ func (h CreateBucketHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+}
+
+func (h S3Handler) handlePut(w http.ResponseWriter, r *http.Request) *S3Error {
+
 	uriParams := r.URL.Query()
 	pathParams := strings.Split(r.URL.Path, "/")
 
-	bucket := pathParams[1]
 	acl := uriParams.Get(CB_URI_PARAM_ACL)
 
-	fserr := h.Controller.CreateBucket(bucket, acl)
-	if fserr != nil {
-		RespBody, _ := GetXML(fserr)
-		http.Error(w, RespBody, fserr.Errorcode)
+	bucket := pathParams[1]
+
+	objectPath := r.URL.Path
+	object, _ := io.ReadAll(r.Body)
+
+	var s3err S3Error = nil
+	if r.Body == http.NoBody {
+		s3err = h.Controller.CreateBucket(bucket, acl)
+	} else {
+		s3err = h.Controller.PutObject(object, objectPath, acl)
 	}
 
+	if s3err != nil {
+		RespBody, _ := GetXML(s3err)
+		http.Error(w, RespBody, s3err.ErrHttpCode())
+	}
+
+	return nil
 }
