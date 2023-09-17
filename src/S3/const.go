@@ -9,10 +9,17 @@ const (
 	ACL_AUTHENTICATED_READ        = "authenticated-read"
 )
 
-// COMMAND CONSTS
+// COMMAND ENUM
 
-// createBucket
+type COMMAND int64
+
 const (
-	CB_URI_PARAM_BUCKET string = "BUCKET"
-	CB_URI_PARAM_ACL    string = "x-amz-acl"
+	CMD_NOT_FOUND COMMAND = iota
+	CMD_PUT_CREATE_BUCKET
+	CMD_PUT_CREATE_OBJECT
+)
+
+// COMMAND CONSTS
+const (
+	CB_URI_PARAM_ACL string = "x-amz-acl"
 )

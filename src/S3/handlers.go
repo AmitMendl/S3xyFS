@@ -6,6 +6,7 @@ package s3
 
 import (
 	"net/http"
+	"regexp"
 	"strings"
 
 	s3fs "github.com/AmitMendl/S3xyFS/src/FS"
@@ -16,12 +17,6 @@ type S3Handler struct {
 }
 
 func (h S3Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-
-	type Body struct {
-		CreateBucketConfiguration struct {
-			LocationConstraint string
-		}
-	}
 
 	if r.Method == "PUT" {
 		h.handlePut(w, r)
@@ -41,4 +36,14 @@ func (h S3Handler) handlePut(w http.ResponseWriter, r *http.Request) {
 		RespBody, _ := GetXML(fserr)
 		http.Error(w, RespBody, fserr.Errorcode)
 	}
+}
+
+func (h S3Handler) getPutCommand(r *http.Request) COMMAND {
+	if match, _ := regexp.MatchString("^/[a-z-.]+/$", r.URL.Path); match {
+		return CMD_PUT_CREATE_BUCKET
+	}
+	if match, _ := regexp.MatchString("^(?:/[a-z-.]+)(?:/[a-z0-9]+)+(?:[a-z0-9.]+[a-z0-9]$)", r.URL.Path); match {
+		return CMD_PUT_CREATE_OBJECT
+	}
+	return CMD_NOT_FOUND
 }
