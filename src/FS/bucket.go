@@ -20,10 +20,11 @@ func (c *S3Controller) getBucketPath(bucket string) string {
 	return path.Join(c.root, string(bucket))
 }
 
-func (c *S3Controller) CreateBucket(name string, acl string) *FSerr {
+func (c *S3Controller) CreateBucket(name string, acl string) *FSError {
 	if _, exists := c.buckets[name]; !exists {
-		return &FSerr{
-			Message:   ERR_BUCKET_ALREADY_EXISTS,
+		return &FSError{
+			Code:      ERR_BUCKET_ALREADY_EXISTS_CODE,
+			Message:   ERR_BUCKET_ALREADY_EXISTS_MSG,
 			Errorcode: 400,
 		}
 	}

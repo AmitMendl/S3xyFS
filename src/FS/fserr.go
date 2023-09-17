@@ -1,11 +1,12 @@
 package fs
 
-type FSerr struct {
+type FSError struct {
+	Code      string
 	Message   string
 	Errorcode int
 }
 
 // compliance with Error interface
-func (e FSerr) Error() string {
+func (e FSError) Error() string {
 	return e.Message
 }

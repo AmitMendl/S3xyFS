@@ -39,8 +39,9 @@ func (h CreateBucketHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	acl := uriParams.Get(CB_URI_PARAM_ACL)
 	// body doesn't matter
 
-	if fserr := h.Controller.CreateBucket(bucket, acl); fserr != nil {
-		w.WriteHeader(fserr.Errorcode)
+	fserr := h.Controller.CreateBucket(bucket, acl)
+	if fserr != nil {
+		http.Error(w, fserr.Message, fserr.Errorcode)
 	}
 
 }
