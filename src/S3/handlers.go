@@ -5,7 +5,6 @@ package s3
 */
 
 import (
-	"io"
 	"net/http"
 	"strings"
 
@@ -24,35 +23,22 @@ func (h S3Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	if r.Method != "PUT" {
-		return
+	if r.Method == "PUT" {
+		h.handlePut(w, r)
 	}
-
 }
 
-func (h S3Handler) handlePut(w http.ResponseWriter, r *http.Request) *S3Error {
+func (h S3Handler) handlePut(w http.ResponseWriter, r *http.Request) {
 
 	uriParams := r.URL.Query()
 	pathParams := strings.Split(r.URL.Path, "/")
 
+	bucket := pathParams[1]
 	acl := uriParams.Get(CB_URI_PARAM_ACL)
 
-	bucket := pathParams[1]
-
-	objectPath := r.URL.Path
-	object, _ := io.ReadAll(r.Body)
-
-	var s3err S3Error = nil
-	if r.Body == http.NoBody {
-		s3err = h.Controller.CreateBucket(bucket, acl)
-	} else {
-		s3err = h.Controller.PutObject(object, objectPath, acl)
+	fserr := h.Controller.CreateBucket(bucket, acl)
+	if fserr != nil {
+		RespBody, _ := GetXML(fserr)
+		http.Error(w, RespBody, fserr.Errorcode)
 	}
-
-	if s3err != nil {
-		RespBody, _ := GetXML(s3err)
-		http.Error(w, RespBody, s3err.ErrHttpCode())
-	}
-
-	return nil
 }
