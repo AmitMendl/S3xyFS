@@ -5,7 +5,6 @@ package s3
 */
 
 import (
-	"log"
 	"net/http"
 	"strings"
 
@@ -35,11 +34,13 @@ func (h CreateBucketHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	uriParams := r.URL.Query()
 	pathParams := strings.Split(r.URL.Path, "/")
-	log.Printf("%v", pathParams)
 
 	bucket := pathParams[1]
 	acl := uriParams.Get(CB_URI_PARAM_ACL)
 	// body doesn't matter
 
-	h.Controller.CreateBucket(bucket, acl)
+	if fserr := h.Controller.CreateBucket(bucket, acl); fserr != nil {
+		w.WriteHeader(fserr.Errorcode)
+	}
+
 }

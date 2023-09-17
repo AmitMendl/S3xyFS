@@ -21,10 +21,10 @@ func (c *S3Controller) getBucketPath(bucket string) string {
 }
 
 func (c *S3Controller) CreateBucket(name string, acl string) *FSerr {
-	if _, exists := c.buckets[name]; exists {
+	if _, exists := c.buckets[name]; !exists {
 		return &FSerr{
-			message:   ERR_BUCKET_ALREADY_EXISTS,
-			errorcode: 400,
+			Message:   ERR_BUCKET_ALREADY_EXISTS,
+			Errorcode: 400,
 		}
 	}
 
@@ -35,8 +35,6 @@ func (c *S3Controller) CreateBucket(name string, acl string) *FSerr {
 		acl:  acl,
 		path: path,
 	}
-
-	log.Printf("%v", c.buckets[name])
 
 	if err := os.Mkdir(path, fs.FileMode(FS_FILEMODE)); err != nil {
 		log.Fatal(err)
